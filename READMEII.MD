@@ -35,21 +35,21 @@ sudo pip install Pillow
 yum install numpy scipy python-matplotlib ipython python-pandas sympy python-nose atlas-devel
 yum -y install git
 
-# git clone https://github.com/ArchipelProject/Archipel.git
-# cd /path/to/clone/Archipel/
-# ./pull.sh
+git clone https://github.com/ArchipelProject/Archipel.git
+cd /path/to/clone/Archipel/
+./pull.sh
 
-# easy_install apscheduler==2.1.2 sqlalchemy numpy
-# cd /path/ArchipelAgent/
-# ./buildAgent -d
+easy_install apscheduler==2.1.2 sqlalchemy numpy
+cd /path/ArchipelAgent/
+./buildAgent -d
 
-# archipel-initinstall
+archipel-initinstall
 
-# archipel-tagnode --jid=admin@FQDN --password=YOURPASSWORD --create
-# archipel-rolesnode --jid=admin@FQDN --password=YOURPASSWORD --create
-# archipel-adminaccounts --jid=admin@FQDN --password=YOURPASSWORD --create
+archipel-tagnode --jid=admin@FQDN --password=YOURPASSWORD --create
+archipel-rolesnode --jid=admin@FQDN --password=YOURPASSWORD --create
+archipel-adminaccounts --jid=admin@FQDN --password=YOURPASSWORD --create
 
-# /etc/init.d/archipel start
+/etc/init.d/archipel start
 
-# archipel-testxmppserver --jid=admin@FQDN --password=YOURPASSWORD
+archipel-testxmppserver --jid=admin@FQDN --password=YOURPASSWORD
 
