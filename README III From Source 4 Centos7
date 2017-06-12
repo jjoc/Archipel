@@ -1,0 +1,116 @@
+#PRE-REQUISITES
+grep -E '(vmx|svm)' /proc/cpuinfo
+#If vmx or svm on screen, then yes! GO!
+#
+yum install qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client virt-install virt-viewer bridge-utils libguestfs-tools
+systemctl enable libvirtd && systemctl start libvirtd
+
+lsmod | grep kvm
+                 #kvm_intel             162153  0
+                 #kvm                   525409  1 kvm_intel
+                 
+#Nunca viene mal tener un entorno gráfico por si se necesita via VNC
+yum install "@X Window System" xorg-x11-xauth xorg-x11-fonts-* xorg-x11-utils -y
+
+#KVM Virtualization in RHEL 7 Made Easy by José de la Rosa (Dell Linux Engineering)
+
+
+#EJABBERD Archipel is now only certified for "ejabberd 15.07 minimun" (16.03 recommended)
+
+#! bin bash
+#This script installs a ejabberd on centos7
+
+echo 'Updating packages...'
+sudo yum update -y
+
+echo 'Install wget'
+sudo yum install wget -y
+
+echo 'Download EPEL'
+wget http://mirrors.nayatel.com/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
+
+echo 'Install EPEL'
+sudo rpm -Uvh epel-release-7*.rpm
+
+echo 'Install Ejabberd'
+sudo yum install -y https://www.process-one.net/downloads/ejabberd/17.04/ejabberd-17.04-0.x86_64.rpm 
+
+echo 'Start service'
+sudo /bin/ejabberdctl start
+
+#Change admin, localhost and password.:: ejabberdctl register admin1 example.org FgT5bk3
+echo 'Register Admin'
+sudo /bin/ejabberdctl register admin localhost password
+
+#make sure you give the user you just created privileges so you can see the whole control panel.
+#acl:
+#  admin:
+#    user:
+#      - "admin": "localhost"
+# append these lines to the end of your ejabberd.yml file and restart.  
+#
+#Open the Web Admin (usually http://localhost:5280/admin/ (full JID for access))
+
+#INSTALL PYTHON 2.7.9
+yum install gcc
+cd /usr/src
+wget https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz
+tar xzf Python-2.7.9.tgz
+cd Python-2.7.9.tgz
+./configure
+make altinstall
+python2.7 -V
+
+yum install libtiff-devel libjpeg-devel libzip-devel freetype-devel \
+   lcms2-devel libwebp-devel tcl-devel tk-devel
+python setup.py install
+yum group install "Development Tools"
+
+gcc --version
+apt-get install python-dev
+apt-get install python2.7-dev
+
+cd /usr/src/
+git clone https://github.com/ArchipelProject/Archipel.git
+cd /usr/src/Archipel/
+
+./pull.sh
+
+easy_install apscheduler==2.1.2 sqlalchemy numpy
+cd /usr/src/Archipel/ArchipelAgent/ #???
+./buildAgent -d
+./buildCentralAgent -d
+
+archipel-initinstall ### OR
+archipel-centralagentnode --jid=admin@FQDN --password=YOURPASSWORD --create
+archipel-central-agent-initinstall -x your_ejabberd_server_FQDN
+
+#########VER CONFIGURACIONES https://github.com/ArchipelProject/Archipel/wiki/Central-agent
+
+# archipel-tagnode --jid=admin@FQDN --password=YOURPASSWORD --create
+# archipel-rolesnode --jid=admin@FQDN --password=YOURPASSWORD --create
+# archipel-adminaccounts --jid=admin@FQDN --password=YOURPASSWORD --create
+
+
+
+# /etc/init.d/archipel start
+# runarchipel
+
+# ejabberdctl connected_users
+# archipel-testxmppserver --jid=admin@FQDN --password=YOURPASSWORD
+
+#############ACTUALIZACIONES DESDE GITHUB###################################
+# git pull
+# /etc/init.d/archipel restart
+
+
+
+
+
+
+
+
+
+
+
+
